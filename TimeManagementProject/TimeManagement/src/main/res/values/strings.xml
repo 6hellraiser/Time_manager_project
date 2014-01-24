@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TimeManagement</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_list_">List_Activity</string>
+    <string name="title_activity_edit_">Edit_Activity</string>
+    <string name="title_activity_map_activity">Map_activity</string>
+
+</resources>
