@@ -4,7 +4,15 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="E:\Study\Programming 3 grade\Java projects\Android Studio\TimeManagementProject" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ThirdParts/YandexMapKit/yandexmapkit-library" />
+            <option value="$PROJECT_DIR$/ThirdParts/YandexMapKit/yandexmapkit-sample" />
+            <option value="$PROJECT_DIR$/TimeManagement" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

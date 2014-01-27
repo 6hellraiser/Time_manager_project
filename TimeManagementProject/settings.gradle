@@ -1,1 +1,7 @@
 include ':TimeManagement'
+
+include 'YandexMapKit'
+project(':YandexMapKit').projectDir=new File(settingsDir,'./ThirdParts/YandexMapKit/yandexmapkit-library')
+
+include 'YandexMapKitSample'
+project(':YandexMapKitSample').projectDir=new File(settingsDir,'./ThirdParts/YandexMapKit/yandexmapkit-sample')

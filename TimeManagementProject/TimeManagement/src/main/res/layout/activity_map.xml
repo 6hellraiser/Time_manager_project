@@ -1,7 +1,15 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ru.vsu.cs.timemanagement.Map_activity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame">
+
+    <ru.yandex.yandexmapkit.MapView
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:apiKey="DWPqAp2G-rjCmSpWAr7meGwp-uN-jKqePWLvCkb1lEPjcmIQVWzNjq2GstElM5Jr2l0TG6i3rVrU1gwQXpHeFws5fYNhi8G~82UISddabAs=" />
+
+</LinearLayout>

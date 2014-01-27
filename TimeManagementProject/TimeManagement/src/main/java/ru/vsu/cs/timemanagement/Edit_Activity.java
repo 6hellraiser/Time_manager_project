@@ -30,6 +30,8 @@ public class Edit_Activity extends Activity {
     private String description;
     private boolean important;
     private boolean urgent;
+    private float x;
+    private float y;
 
 
 
@@ -94,7 +96,14 @@ public class Edit_Activity extends Activity {
 
     public void addPlace(View view) {
         Intent i = new Intent(this, Map_activity.class);
-        startActivity(i);
+        startActivityForResult(i, 1);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            x = data.getFloatExtra("x",0);
+            y = data.getFloatExtra("y",0);
+        }
     }
 
     private void pushNew() {
@@ -110,6 +119,8 @@ public class Edit_Activity extends Activity {
             data.urgent = true;
         else
             data.urgent = false;
+        data.coordX = x;
+        data.coordY = y;
         data.save(this);
         finish();
     }

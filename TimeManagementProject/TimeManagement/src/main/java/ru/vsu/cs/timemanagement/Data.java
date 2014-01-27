@@ -35,10 +35,16 @@ public class Data {
     @DatabaseField
     public boolean urgent;
 
+    @DatabaseField
+    public double coordX;
+
+    @DatabaseField
+    public double coordY;
+
     /*@DatabaseField
     public boolean done;*/
 
-    public Data(String _name, String _descr, boolean _imp, boolean _urg) {
+    /*public Data(String _name, String _descr, boolean _imp, boolean _urg) {
         name = _name;
         description = _descr;
         important = _imp;
@@ -49,7 +55,7 @@ public class Data {
         name = _name;
         important = _imp;
         urgent = _urg;
-    }
+    }*/
 
     public Data(){}
 
@@ -94,6 +100,12 @@ public class Data {
             helper.close();
 
         }
+    }
+
+    public static boolean test(int i){
+        Integer i1 = i;
+        Integer i2 = i;
+        return i1 == i2; // -128 <= i <= 127
     }
 
     public static void updateField(String compare, String _name, String _descr, boolean _import, boolean _urg, Context context) {

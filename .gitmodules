@@ -1,0 +1,3 @@
+[submodule "TimeManagementProject/ThirdParts/YandexMapKit"]
+	path = TimeManagementProject/ThirdParts/YandexMapKit
+	url = https://github.com/yandexmobile/yandexmapkit-android.git
