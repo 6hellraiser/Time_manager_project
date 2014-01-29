@@ -45,6 +45,7 @@ public class Edit_Activity extends Activity {
     private float y;
 
     private boolean is_map = false;
+    private String path = "";
     //test
     ImageView capturedImage;
 
@@ -52,6 +53,8 @@ public class Edit_Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_);
+
+        capturedImage = (ImageView) findViewById(R.id.imageView);
 
         ch_import = (CheckBox)findViewById(R.id.ch_import);
         ch_urg = (CheckBox)findViewById(R.id.ch_urg);
@@ -68,14 +71,17 @@ public class Edit_Activity extends Activity {
             urgent = b.getBoolean("urg");
             x = b.getFloat("coordX");
             y = b.getFloat("coordY");
+            path = b.getString("path");
 
             et_name.setText(name);
             et_descr.setText(description);
             ch_import.setChecked(important);
             ch_urg.setChecked(urgent);
+            Intent i = new Intent(this, Photo_activity.class);
+            i.putExtra("path", path);
+            startActivity(i);
         }
 
-        capturedImage = (ImageView) findViewById(R.id.imageView);
 
         /*startActionMode(new ActionMode.Callback() {
             @Override
@@ -129,7 +135,7 @@ public class Edit_Activity extends Activity {
 
     private String getFileName() {
         String path = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath();
-        String timeStamp = "String";//new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return path + "/" + timeStamp;
     }
 
@@ -143,12 +149,13 @@ public class Edit_Activity extends Activity {
     }
 
     public void addPhoto(View view) throws IOException {
-        Intent captureIntent = photoCapture(getFileName());
+        path = getFileName();
+        Intent captureIntent = photoCapture(path);
         startActivityForResult(captureIntent, REQUEST_IMAGE_CAPTURE);
     }
 
 
-    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+   /* private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -166,9 +173,9 @@ public class Edit_Activity extends Activity {
         }
 
         return inSampleSize;
-    }
+    }*/
 
-    private Bitmap decodeSampledBitmapFromFile(String fileName, int reqWidth, int reqHeight) {
+   /* private Bitmap decodeSampledBitmapFromFile(String fileName, int reqWidth, int reqHeight) {
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -180,7 +187,7 @@ public class Edit_Activity extends Activity {
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(fileName, options);
-    }
+    }*/
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) { //distinguish!!
         if (is_map) {
@@ -190,17 +197,22 @@ public class Edit_Activity extends Activity {
             }
             is_map = false;
         }
-        else {
+       /* else {
             if (requestCode == 1) {
                 if (resultCode == RESULT_OK) {
-                    String fileName = getFileName();
+                    String fileName = path;
                     Bitmap bitmap = decodeSampledBitmapFromFile(fileName, capturedImage.getWidth(), capturedImage.getHeight());
                     capturedImage.setImageBitmap(bitmap);
 
                 }
             }
-        }
+        }*/
     }
+
+    /*private void Taft() {
+        Bitmap bitmap = decodeSampledBitmapFromFile(path, capturedImage.getWidth(), capturedImage.getHeight());
+        capturedImage.setImageBitmap(bitmap);
+    }*/
 
     //////////////////////////////
 
@@ -219,6 +231,7 @@ public class Edit_Activity extends Activity {
             data.urgent = false;
         data.coordX = x;
         data.coordY = y;
+        data.path = path;
         data.save(this);
         finish();
     }

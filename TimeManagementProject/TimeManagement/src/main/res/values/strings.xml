@@ -7,5 +7,6 @@
     <string name="title_activity_list_">List_Activity</string>
     <string name="title_activity_edit_">Edit_Activity</string>
     <string name="title_activity_map_activity">Map_activity</string>
+    <string name="title_activity_photo_activity">Photo_activity</string>
 
 </resources>

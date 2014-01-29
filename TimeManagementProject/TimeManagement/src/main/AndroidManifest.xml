@@ -8,13 +8,12 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-         />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -41,6 +40,10 @@
         <activity
             android:name="ru.vsu.cs.timemanagement.Map_activity"
             android:label="@string/title_activity_map_activity" >
+        </activity>
+        <activity
+            android:name="ru.vsu.cs.timemanagement.Photo_activity"
+            android:label="@string/title_activity_photo_activity" >
         </activity>
     </application>
 
