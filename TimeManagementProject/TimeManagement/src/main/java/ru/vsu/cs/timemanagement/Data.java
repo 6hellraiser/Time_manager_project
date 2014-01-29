@@ -36,10 +36,13 @@ public class Data {
     public boolean urgent;
 
     @DatabaseField
-    public double coordX;
+    public float coordX;
 
     @DatabaseField
-    public double coordY;
+    public float coordY;
+
+    @DatabaseField
+    public String path;
 
     /*@DatabaseField
     public boolean done;*/

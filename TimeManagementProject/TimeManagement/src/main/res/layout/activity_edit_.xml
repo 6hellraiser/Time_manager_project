@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ru.vsu.cs.timemanagement.Edit_Activity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
 
     <EditText
@@ -34,8 +35,21 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Добавить место"
+        android:text="Местоположение"
         android:onClick="addPlace"
         android:id="@+id/add_place" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Фото"
+        android:onClick="addPhoto"
+        android:id="@+id/add_photo" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_weight="0.75" />
 
 </LinearLayout>

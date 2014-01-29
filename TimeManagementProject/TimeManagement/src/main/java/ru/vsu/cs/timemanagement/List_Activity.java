@@ -47,6 +47,8 @@ public class List_Activity extends Activity {
                 i.putExtra("descr", item.description);
                 i.putExtra("import", item.important);
                 i.putExtra("urg", item.urgent);
+                i.putExtra("coordX", item.coordX);
+                i.putExtra("coordY", item.coordY);
                 startActivity(i);
                 // Toast.makeText(getApplicationContext(),l.name, Toast.LENGTH_SHORT).show();
             }
