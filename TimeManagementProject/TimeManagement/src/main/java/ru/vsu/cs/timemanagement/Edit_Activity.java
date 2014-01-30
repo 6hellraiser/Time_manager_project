@@ -77,7 +77,13 @@ public class Edit_Activity extends Activity {
             et_descr.setText(description);
             ch_import.setChecked(important);
             ch_urg.setChecked(urgent);
+        }
+        if (fl == 2) {
+            important = b.getBoolean("import");
+            urgent = b.getBoolean("urg");
 
+            ch_import.setChecked(important);
+            ch_urg.setChecked(urgent);
         }
 
 

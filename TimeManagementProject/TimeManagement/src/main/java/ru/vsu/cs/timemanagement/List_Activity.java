@@ -2,8 +2,11 @@ package ru.vsu.cs.timemanagement;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +27,9 @@ public class List_Activity extends Activity {
     private boolean urgent;
     private ListView list;
 
+    private int kost = 0;
+    private final int IDD_LIST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,27 +49,69 @@ public class List_Activity extends Activity {
             setTitle("Не важные и не срочные");
         list = (ListView) findViewById(R.id.list);
 
+
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Toast.makeText(getApplicationContext(),((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-                Data item = (Data) list.getAdapter().getItem(position);
+                if (kost == 0) {
+                    Data item = (Data) list.getAdapter().getItem(position);
 
-                Intent i = new Intent(List_Activity.this, Edit_Activity.class);
-                int flag = 1;
-                i.putExtra("flag", flag);
-                i.putExtra("name", item.name);
-                i.putExtra("descr", item.description);
-                i.putExtra("import", item.important);
-                i.putExtra("urg", item.urgent);
-                i.putExtra("coordX", item.coordX);
-                i.putExtra("coordY", item.coordY);
-                i.putExtra("path", item.path);
-                startActivity(i);
-                // Toast.makeText(getApplicationContext(),l.name, Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(List_Activity.this, Edit_Activity.class);
+                    int flag = 1;
+                    i.putExtra("flag", flag);
+                    i.putExtra("name", item.name);
+                    i.putExtra("descr", item.description);
+                    i.putExtra("import", item.important);
+                    i.putExtra("urg", item.urgent);
+                    i.putExtra("coordX", item.coordX);
+                    i.putExtra("coordY", item.coordY);
+                    i.putExtra("path", item.path);
+                    startActivity(i);
+                    // Toast.makeText(getApplicationContext(),l.name, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    kost = 0;
+                }
             }
         });
 
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                kost = 1;
+                showDialog(IDD_LIST);
+                return false;
+            }
+        });
+
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case IDD_LIST:
+
+                final String[] methods ={"Удалить"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Выбрать действие"); // заголовок для диалога
+
+                builder.setItems(methods, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        Data i = (Data) list.getAdapter().getItem(item);
+                        Data.delete(i.name, i.description, List_Activity.this);
+                        onStart();
+                    }
+                });
+                builder.setCancelable(true);
+                return builder.create();
+
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -80,11 +128,18 @@ public class List_Activity extends Activity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case (R.id.add_task) :
-
+                Intent i = new Intent(List_Activity.this, Edit_Activity.class);
+                int flag = 2;
+                i.putExtra("flag", flag);
+                i.putExtra("import", important);
+                i.putExtra("urg", urgent);
+                startActivity(i);
                 break;
         }
         return super.onOptionsItemSelected(item);

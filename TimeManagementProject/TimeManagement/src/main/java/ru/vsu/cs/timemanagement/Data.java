@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
@@ -135,6 +136,23 @@ public class Data {
 
         }
 
+    }
+
+    public static void delete(String name, String descr, Context context){
+        DatabaseHelper helper = new DatabaseHelper(context);
+        try {
+
+            Dao<Data, Integer> dao = helper.getDataDao();
+            DeleteBuilder<Data, Integer> db = dao.deleteBuilder();
+            db.where().eq("name", name).and().eq("description", descr);
+            dao.delete(db.prepare());
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+            helper.close();
+        }
     }
 
     public static List<Data> returnDone(boolean _done, Context context) {
