@@ -27,6 +27,9 @@ public class Map_activity extends Activity {
     MapController mMapController;
     MapView mMapView;
 
+    private OverlayItem item;
+    private Overlay overlay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,10 +87,16 @@ public class Map_activity extends Activity {
         //final OverlayItem item = new OverlayItem(new GeoPoint(new ScreenPoint(x, y)), getResources().getDrawable(R.drawable.shop));
 
         Log.e("Map", String.format("Draw %s, %s",x ,y));
-        final OverlayItem item = new OverlayItem(new GeoPoint(x,y), getResources().getDrawable(R.drawable.shop));
-        Overlay overlay = new Overlay(mMapController);
-        overlay.addOverlayItem(item);
-        mMapController.getOverlayManager().addOverlay(overlay);
+        item = new OverlayItem(new GeoPoint(x,y), getResources().getDrawable(R.drawable.shop));
+        if (overlay == null) {
+            overlay = new Overlay(mMapController);
+            overlay.addOverlayItem(item);
+            mMapController.getOverlayManager().addOverlay(overlay);
+        }
+        else {
+            overlay.clearOverlayItems();
+            overlay.addOverlayItem(item);
+        }
     }
 
     public class MyOverlay extends Overlay {

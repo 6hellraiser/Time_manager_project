@@ -111,7 +111,7 @@ public class Data {
         return i1 == i2; // -128 <= i <= 127
     }
 
-    public static void updateField(String compare, String _name, String _descr, boolean _import, boolean _urg, Context context) {
+    public static void updateField(String compare, String _name, String _descr, boolean _import, boolean _urg, float x, float y, Context context) {
         DatabaseHelper helper = new DatabaseHelper(context);
         try {
             Dao<Data, Integer> dao = helper.getDataDao();
@@ -120,6 +120,8 @@ public class Data {
             updateBuilder.updateColumnValue("description", _descr);
             updateBuilder.updateColumnValue("important", _import);
             updateBuilder.updateColumnValue("urgent", _urg);
+            updateBuilder.updateColumnValue("coordX", x);
+            updateBuilder.updateColumnValue("coordY", y);
             updateBuilder.where().eq("name", compare);
             updateBuilder.update();
 

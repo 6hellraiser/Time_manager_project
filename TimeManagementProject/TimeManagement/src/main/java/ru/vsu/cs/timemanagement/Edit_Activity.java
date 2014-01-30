@@ -44,8 +44,8 @@ public class Edit_Activity extends Activity {
     private float x;
     private float y;
 
-    private boolean is_map = false;
     private String path = "";
+    private boolean is_map = false;
     //test
     ImageView capturedImage;
 
@@ -77,9 +77,7 @@ public class Edit_Activity extends Activity {
             et_descr.setText(description);
             ch_import.setChecked(important);
             ch_urg.setChecked(urgent);
-            Intent i = new Intent(this, Photo_activity.class);
-            i.putExtra("path", path);
-            startActivity(i);
+
         }
 
 
@@ -149,45 +147,17 @@ public class Edit_Activity extends Activity {
     }
 
     public void addPhoto(View view) throws IOException {
-        path = getFileName();
-        Intent captureIntent = photoCapture(path);
-        startActivityForResult(captureIntent, REQUEST_IMAGE_CAPTURE);
-    }
-
-
-   /* private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            // Calculate ratios of height and width to requested height and width
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            // Choose the smallest ratio as inSampleSize value, this will guarantee
-            // a final image with both dimensions larger than or equal to the
-            // requested height and width.
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        if (fl == 0) {
+            path = getFileName();
+            Intent captureIntent = photoCapture(path);
+            startActivityForResult(captureIntent, REQUEST_IMAGE_CAPTURE);
         }
-
-        return inSampleSize;
-    }*/
-
-   /* private Bitmap decodeSampledBitmapFromFile(String fileName, int reqWidth, int reqHeight) {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(fileName, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(fileName, options);
-    }*/
+        else {
+            Intent i = new Intent(this, Photo_activity.class);
+            i.putExtra("path", path);
+            startActivity(i);
+        }
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) { //distinguish!!
         if (is_map) {
@@ -197,22 +167,8 @@ public class Edit_Activity extends Activity {
             }
             is_map = false;
         }
-       /* else {
-            if (requestCode == 1) {
-                if (resultCode == RESULT_OK) {
-                    String fileName = path;
-                    Bitmap bitmap = decodeSampledBitmapFromFile(fileName, capturedImage.getWidth(), capturedImage.getHeight());
-                    capturedImage.setImageBitmap(bitmap);
-
-                }
-            }
-        }*/
     }
 
-    /*private void Taft() {
-        Bitmap bitmap = decodeSampledBitmapFromFile(path, capturedImage.getWidth(), capturedImage.getHeight());
-        capturedImage.setImageBitmap(bitmap);
-    }*/
 
     //////////////////////////////
 
@@ -241,7 +197,8 @@ public class Edit_Activity extends Activity {
         description = et_descr.getText().toString();
         important = ch_import.isChecked();
         urgent = ch_urg.isChecked();
-        Data.updateField(name_search, name, description, important, urgent, this);
+        //path =
+        Data.updateField(name_search, name, description, important, urgent, x, y, this);
         finish();
     }
 
