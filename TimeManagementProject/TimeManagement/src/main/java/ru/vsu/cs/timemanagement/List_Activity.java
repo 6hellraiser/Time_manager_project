@@ -27,11 +27,20 @@ public class List_Activity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_list_);
 
         Bundle b = getIntent().getExtras();
         important = b.getBoolean("import");
         urgent = b.getBoolean("urg");
+        if (important && urgent)
+            setTitle("Важные и срочные");
+        if (important && !urgent)
+            setTitle("Важные и не срочные");
+        if (!important && urgent)
+            setTitle("Не важные и срочные");
+        if (!important && !urgent)
+            setTitle("Не важные и не срочные");
         list = (ListView) findViewById(R.id.list);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,4 +80,13 @@ public class List_Activity extends Activity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.add_task) :
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -131,23 +131,10 @@ public class Edit_Activity extends Activity {
 
     /////////////////////////////////
 
-    private String getFileName() {
-        String path = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath();
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return path + "/" + timeStamp;
-    }
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-
-    public Intent photoCapture(String file) {
-        Uri uri = Uri.fromFile(new File(file));
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        return intent;
-    }
 
     public void addPhoto(View view) throws IOException {
-        if (fl == 0) {
+       /* if (fl == 0) {
             path = getFileName();
             Intent captureIntent = photoCapture(path);
             startActivityForResult(captureIntent, REQUEST_IMAGE_CAPTURE);
@@ -156,7 +143,10 @@ public class Edit_Activity extends Activity {
             Intent i = new Intent(this, Photo_activity.class);
             i.putExtra("path", path);
             startActivity(i);
-        }
+        }*/
+        Intent i = new Intent(this, Photo_activity.class);
+        i.putExtra("path", path);
+        startActivityForResult(i, 1);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) { //distinguish!!
@@ -166,6 +156,11 @@ public class Edit_Activity extends Activity {
                 y = data.getFloatExtra("y",0);
             }
             is_map = false;
+        }
+        else {
+            if (requestCode == 1 && resultCode == RESULT_OK) {
+                path = data.getStringExtra("path");
+            }
         }
     }
 
