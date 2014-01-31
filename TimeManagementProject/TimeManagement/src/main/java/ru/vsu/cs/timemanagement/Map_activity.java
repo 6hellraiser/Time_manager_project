@@ -49,13 +49,15 @@ public class Map_activity extends Activity {
         overlay.addOverlayItem(item);
         mMapController.getOverlayManager().addOverlay(overlay);*/
         mMapController.getOverlayManager().addOverlay(new MyOverlay(mMapController));
+        setTitle("Местоположение");
 
         ok = b.getBoolean("draw");
         if (ok) {
             x = b.getFloat("coordX");
             y = b.getFloat("coordY");
             Log.e("Map", String.format("Create %s, %s",x ,y));
-            Draw();
+            if (x != 0 || y != 0)
+                Draw();
         }
     }
 
@@ -98,9 +100,9 @@ public class Map_activity extends Activity {
             overlay.clearOverlayItems();
             overlay.addOverlayItem(item);
         }
-        if (ok) {
+        //if (ok) {
             mMapController.setPositionAnimationTo(new GeoPoint(x, y));
-        }
+        //}
     }
 
     public class MyOverlay extends Overlay {

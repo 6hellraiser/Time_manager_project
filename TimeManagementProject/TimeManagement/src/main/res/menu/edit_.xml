@@ -8,7 +8,7 @@
         android:showAsAction="never" />
 
     <item android:id="@+id/done"
-        android:icon="@drawable/abc_ic_go"
+        android:icon="@drawable/ok"
         android:showAsAction="always"
         />
 </menu>

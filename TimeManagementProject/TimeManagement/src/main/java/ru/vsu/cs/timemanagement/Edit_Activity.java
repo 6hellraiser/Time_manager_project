@@ -79,6 +79,7 @@ public class Edit_Activity extends Activity {
             et_descr.setText(description);
             ch_import.setChecked(important);
             ch_urg.setChecked(urgent);
+            setTitle(name);
         }
         if (fl == 2) {
             important = b.getBoolean("import");
@@ -86,10 +87,14 @@ public class Edit_Activity extends Activity {
 
             ch_import.setChecked(important);
             ch_urg.setChecked(urgent);
+            setTitle("Новое задание");
+        }
+        if (fl == 0) {
+            setTitle("Новое задание");
         }
 
 
-        /*startActionMode(new ActionMode.Callback() {
+      /*  startActionMode(new ActionMode.Callback() {
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 return true;
@@ -132,7 +137,9 @@ public class Edit_Activity extends Activity {
             i.putExtra("coordY",y);
         }
         else {
-            i.putExtra("draw", false);
+            i.putExtra("draw", true);
+            i.putExtra("coordX", x);
+            i.putExtra("coordY", y);
         }
         startActivityForResult(i, 1);
     }
@@ -205,15 +212,24 @@ public class Edit_Activity extends Activity {
         }
     }
 
+    private boolean isnotEmpty() {
+        if (et_name.getText().toString().equals(""))
+            return false;
+        else return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.done:
                 //push in DB
-                if (fl == 1)
-                    changeOld();
-                else
-                    pushNew();
+                if (isnotEmpty()) {
+                    if (fl == 1)
+                        changeOld();
+                    else
+                        pushNew();
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
