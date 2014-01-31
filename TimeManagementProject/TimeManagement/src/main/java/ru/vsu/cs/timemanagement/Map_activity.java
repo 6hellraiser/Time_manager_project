@@ -29,6 +29,7 @@ public class Map_activity extends Activity {
 
     private OverlayItem item;
     private Overlay overlay;
+    private boolean ok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class Map_activity extends Activity {
         mMapController.getOverlayManager().addOverlay(overlay);*/
         mMapController.getOverlayManager().addOverlay(new MyOverlay(mMapController));
 
-        boolean ok = b.getBoolean("draw");
+        ok = b.getBoolean("draw");
         if (ok) {
             x = b.getFloat("coordX");
             y = b.getFloat("coordY");
@@ -96,6 +97,9 @@ public class Map_activity extends Activity {
         else {
             overlay.clearOverlayItems();
             overlay.addOverlayItem(item);
+        }
+        if (ok) {
+            mMapController.setPositionAnimationTo(new GeoPoint(x, y));
         }
     }
 

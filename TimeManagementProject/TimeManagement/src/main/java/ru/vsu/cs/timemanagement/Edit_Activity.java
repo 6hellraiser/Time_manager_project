@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -135,21 +137,8 @@ public class Edit_Activity extends Activity {
         startActivityForResult(i, 1);
     }
 
-    /////////////////////////////////
-
-
 
     public void addPhoto(View view) throws IOException {
-       /* if (fl == 0) {
-            path = getFileName();
-            Intent captureIntent = photoCapture(path);
-            startActivityForResult(captureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-        else {
-            Intent i = new Intent(this, Photo_activity.class);
-            i.putExtra("path", path);
-            startActivity(i);
-        }*/
         Intent i = new Intent(this, Photo_activity.class);
         i.putExtra("path", path);
         startActivityForResult(i, 1);
@@ -171,8 +160,6 @@ public class Edit_Activity extends Activity {
     }
 
 
-    //////////////////////////////
-
     private void pushNew() {
         Data data = new Data();
         data.name = et_name.getText().toString();
@@ -189,7 +176,8 @@ public class Edit_Activity extends Activity {
         data.coordX = x;
         data.coordY = y;
         data.path = path;
-        data.save(this);
+        //data.save(this);
+        new PushInDBTask().execute(data);
         finish();
     }
 
@@ -198,9 +186,23 @@ public class Edit_Activity extends Activity {
         description = et_descr.getText().toString();
         important = ch_import.isChecked();
         urgent = ch_urg.isChecked();
-        //path =
-        Data.updateField(name_search, name, description, important, urgent, x, y, this);
+
+        //Data.updateField(name_search, name, description, important, urgent, x, y, path, this);
+        new PushInDBTask().execute();
         finish();
+    }
+
+    private class PushInDBTask extends AsyncTask<Data,Void,Void> {
+        @Override
+        protected Void doInBackground(Data... params) {
+            if (params.length > 0) {
+                params[0].save(Edit_Activity.this);
+            }
+            else {
+                Data.updateField(name_search, name, description, important, urgent, x, y, path, Edit_Activity.this);
+            }
+            return null;
+        }
     }
 
     @Override

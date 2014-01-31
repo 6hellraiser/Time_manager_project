@@ -106,13 +106,30 @@ public class Data {
         }
     }
 
+    public static List<Data> returnAll(Context context) {
+        DatabaseHelper helper = new DatabaseHelper(context);
+        try {
+            Dao<Data, Integer> dao = helper.getDataDao();
+            return dao.queryForAll();
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+
+            helper.close();
+
+        }
+    }
+
     public static boolean test(int i){
         Integer i1 = i;
         Integer i2 = i;
         return i1 == i2; // -128 <= i <= 127
     }
 
-    public static void updateField(String compare, String _name, String _descr, boolean _import, boolean _urg, float x, float y, Context context) {
+    public static void updateField(String compare, String _name, String _descr, boolean _import, boolean _urg, float x, float y, String path, Context context) {
         DatabaseHelper helper = new DatabaseHelper(context);
         try {
             Dao<Data, Integer> dao = helper.getDataDao();
@@ -123,6 +140,7 @@ public class Data {
             updateBuilder.updateColumnValue("urgent", _urg);
             updateBuilder.updateColumnValue("coordX", x);
             updateBuilder.updateColumnValue("coordY", y);
+            updateBuilder.updateColumnValue("path", path);
             updateBuilder.where().eq("name", compare);
             updateBuilder.update();
 

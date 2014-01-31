@@ -6,8 +6,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,14 +24,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+import java.util.Objects;
+
 public class List_Activity extends Activity {
 
     private boolean important;
     private boolean urgent;
     private ListView list;
 
+    private boolean all;
+
     private int kost = 0;
     private final int IDD_LIST = 1;
+
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +47,23 @@ public class List_Activity extends Activity {
         setContentView(R.layout.activity_list_);
 
         Bundle b = getIntent().getExtras();
+        all = b.getBoolean("all");
+
         important = b.getBoolean("import");
         urgent = b.getBoolean("urg");
-        if (important && urgent)
-            setTitle("Важные и срочные");
-        if (important && !urgent)
-            setTitle("Важные и не срочные");
-        if (!important && urgent)
-            setTitle("Не важные и срочные");
-        if (!important && !urgent)
-            setTitle("Не важные и не срочные");
+        if (!all) {
+            if (important && urgent)
+                setTitle("Важные и срочные");
+            if (important && !urgent)
+                setTitle("Важные и не срочные");
+            if (!important && urgent)
+                setTitle("Не важные и срочные");
+            if (!important && !urgent)
+                setTitle("Не важные и не срочные");
+        }
+        else {
+            setTitle("Все задания");
+        }
         list = (ListView) findViewById(R.id.list);
 
 
@@ -117,7 +134,50 @@ public class List_Activity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        list.setAdapter(new CustomAdapter(Data.returnData(important,urgent,this),this));
+        if (!all) {
+            new TakeFromDBTask().execute(important, urgent);
+            //list.setAdapter(new CustomAdapter(Data.returnData(important,urgent,this),this));
+        }
+        else {
+            new TakeFromDBTask().execute();
+            //list.setAdapter(new CustomAdapter(Data.returnAll(this), this));
+        }
+    }
+
+    private class TakeFromDBTask extends AsyncTask<Object, Void, List<Data>> {
+
+        @Override
+        protected void onPreExecute() {
+            progress = new ProgressDialog(List_Activity.this);
+            progress.setMessage("Загрузка...");
+        }
+
+        @Override
+        protected List<Data> doInBackground(Object... params) {
+            boolean loc_important;
+            boolean loc_urgent;
+
+            if (params.length > 0) {
+                loc_important = (Boolean) params[0];
+                loc_urgent = (Boolean) params[1];
+                return Data.returnData(loc_important,loc_urgent,List_Activity.this);
+            }
+            else {
+                return Data.returnAll(List_Activity.this);
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+            progress.show();
+        }
+
+        @Override
+        protected void onPostExecute(List<Data> datas) {
+            super.onPostExecute(datas);
+            list.setAdapter(new CustomAdapter(datas,List_Activity.this));
+        }
     }
 
     @Override

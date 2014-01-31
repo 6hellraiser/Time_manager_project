@@ -38,24 +38,29 @@ public class MainActivity extends ActionBarActivity {
        // startActivity(new Intent(this, Edit_Activity.class));
     }
 
+    public void showAll(View view) {
+        startNewActivity(false, false, true);
+    }
+
     public void viewImpUrg(View view) {
-        startNewActivity(true,true);
+        startNewActivity(true,true, false);
     }
 
     public void viewImpNotUrg(View view) {
-        startNewActivity(true,false);
+        startNewActivity(true,false, false);
     }
 
     public void viewUnimpUrg(View view) {
-        startNewActivity(false,true);
+        startNewActivity(false,true, false);
     }
 
     public void viewUnimpNotUrg(View view) {
-        startNewActivity(false,false);
+        startNewActivity(false,false, false);
     }
 
-    public void startNewActivity(boolean _import, boolean _urg) {
+    public void startNewActivity(boolean _import, boolean _urg, boolean all) {
         Intent i = new Intent(this, List_Activity.class);
+        i.putExtra("all", all);
         i.putExtra("import", _import);
         i.putExtra("urg", _urg);
         startActivity(i);
